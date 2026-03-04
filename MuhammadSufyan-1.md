@@ -1,11 +1,8 @@
-# Java-Assignment
-Java program for matrix row, column and diagonal sums.
 import java.util.Scanner;
-
 public class Assignment {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-
+        
         System.out.print("Enter number of rows: ");
         int r = input.nextInt();
         System.out.print("Enter number of columns: ");
