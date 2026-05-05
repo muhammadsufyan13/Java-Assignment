@@ -1,0 +1,45 @@
+import java.util.Scanner;
+
+class string
+{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter an odd number for size: ");
+        int n = sc.nextInt();
+
+        if (n % 2 == 0) {
+            System.out.println("Magic square works only for odd numbers!");
+            return;
+        }
+
+        int[][] magic = new int[n][n];
+
+        int number = 1;
+        int i = 0, j = n / 2; // start position: first row, middle column
+
+        while (number <= n * n) 
+        {
+            magic[i][j] = number;
+            number++;
+
+            int newi = (i - 1 + n) % n; // move up
+            int newj = (j + 1) % n;     // move right
+
+            if (magic[newi][newj] != 0) {
+                i = (i + 1) % n; // move down if cell is already filled
+            } else {
+                i = newi;
+                j = newj;
+            }
+        }
+
+        // Print the magic square
+        System.out.println("Magic Square of size " + n + ":");
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < n; j++) {
+                System.out.print(magic[i][j] + "\t");
+            }
+            System.out.println();
+        }
+    }
+}
