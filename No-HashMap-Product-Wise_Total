@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class SalesSummary {
+    public static void main(String[] args) {
+        String filePath = "testtext.txt";
+        String record;
+
+        String[] reps = new String[100];
+        int[] totalQty = new int[100];
+        int[] totalSales = new int[100];
+        int repCount = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            System.out.println("ItemCode\tProduct\tUnit Price\tQty\tDate\tRep ID");
+
+            while ((record = reader.readLine()) != null) {
+                System.out.println(record);
+
+                if (record.startsWith("ItemCode")) continue;
+
+                String[] fields = record.split("\t");
+                String itemCode = fields[0];
+                String repId = fields[1];
+                int unitPrice = Integer.parseInt(fields[2]);
+                int quantity = Integer.parseInt(fields[3]);
+
+                boolean exists = false;
+                for (int i = 0; i < repCount; i++) {
+                    if (reps[i].equals(repId)) {
+                        totalQty[i] += quantity;
+                        totalSales[i] += quantity * unitPrice;
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    reps[repCount] = repId;
+                    totalQty[repCount] = quantity;
+                    totalSales[repCount] = quantity * unitPrice;
+                    repCount++;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\n📊 Sales Summary by Rep:");
+        for (int i = 0; i < repCount; i++) {
+            System.out.println(reps[i] + " -> Qty: " + totalQty[i] + ", Sales Value: " + totalSales[i]);
+        }
+    }
+}
